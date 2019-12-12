@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.AmbientLight?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #9ACD32;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginAdministratorController">
+   <children>
+      <Button fx:id="btn_login" layoutX="312.0" layoutY="379.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="49.0" prefWidth="277.0" styleClass="shiny-black" text="Log in" />
+      <AmbientLight color="CHARTREUSE" lightOn="true" />
+      <TextField fx:id="txt_Username" layoutX="191.0" layoutY="179.0" prefHeight="70.0" prefWidth="520.0" promptText="Username" style="-fx-background-color: #20#3CB371; -fx-border-color: #800; -fx-border-radius: #100;">
+         <font>
+            <Font name="SansSerif Regular" size="38.0" />
+         </font></TextField>
+      <PasswordField fx:id="txt_Password" layoutX="195.0" layoutY="277.0" prefHeight="67.0" prefWidth="510.0" promptText="Password" style="-fx-background-color: #20#3CB371; -fx-border-color: #800; -fx-border-radius: #100;">
+         <font>
+            <Font name="SansSerif Regular" size="38.0" />
+         </font>
+      </PasswordField>
+      <ImageView fitHeight="49.0" fitWidth="56.0" layoutX="36.0" layoutY="41.0" onMouseClicked="#onBtnBackClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/baseline_keyboard_arrow_left_white_48dp.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
