@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.Statement;
+
 
 import autostrada.AutostradaDAO;
 import autostrada.MySQLAutostradaDAOImpl;

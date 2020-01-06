@@ -78,7 +78,10 @@ public class HighwayInsertController implements Initializable {
 			for(FXMLLoader x : loaders)
 			{
 				String[] labels = ((RowHighwaysEditController) x.getController()).getLabels();
+				if(!"Name".equals(labels[0].trim())){
 				res.put(labels[0], Float.valueOf(labels[1]));
+			}
+
 			}
 		}
 		//query
@@ -109,7 +112,7 @@ public class HighwayInsertController implements Initializable {
 			try
 			{
 				//Prendo il layout della singola riga
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RowHighwaysEdit.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RowHighwaysEdit.fxml"));
 				loaders[i] = loader;
 				//la assegno all'i-esmima entry
 				nodes[i] = (Node) loader.load();

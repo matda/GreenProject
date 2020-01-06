@@ -8,6 +8,7 @@ import dao.DaoFactory;
 import Tariffa.Tariffa;
 import Tariffa.TariffaController;
 import utility.Constants;
+import org.apache.log4j.Logger;
 
 /**
  * Autostrada's controller
@@ -16,13 +17,14 @@ public class AutostradaController {
 	
 	private DaoFactory mysqlFactory = DaoFactory.getDaoFactory(Constants.MYSQL);
 	private AutostradaDAO autostradaDAO = new MySQLAutostradaDAOImpl();
+	final static Logger logger = Logger.getLogger(AutostradaController.class);
 
 	
 	/**
 	 * Method that gets every single Autostrada in the database
 	 * @return Returns an ArrayList<Autostrada>
 	 */
-	public List getAutostrade() { 
+	public List <Autostrada>getAutostrade() {
 		ArrayList<Autostrada> autobahn = new ArrayList<Autostrada>();
 		autobahn = (ArrayList<Autostrada>) autostradaDAO.getAllAutostrade();
 		return autobahn;

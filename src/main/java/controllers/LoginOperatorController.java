@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-import casello.Casello;
 import casello.CaselloController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,7 +57,7 @@ public class LoginOperatorController implements Initializable{
 	 */
 	public void onBtnBackClick()
 	{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login-choice.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login-choice.fxml"));
 		Parent root;
 		
 		try {		
@@ -98,7 +97,7 @@ public class LoginOperatorController implements Initializable{
 			caselloController.retrieve(Integer.valueOf(textbox_toll_code.getText()));
 			
 			// Creo il loader che contiene il nuovo layout dell'interfaccia
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Home_Operator_Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Home_Operator_Main.fxml"));
 			root = loader.load();
 			
 			// Prendo il controller del loader e setto il tollcode con il relativo metodo
@@ -116,7 +115,10 @@ public class LoginOperatorController implements Initializable{
 			textbox_toll_code.setPromptText(Constants.CASELLO_NOT_FOUND_ERROR);
 			return;
 		}
-		
+
+
+
+
 	    //drag it here
 	    root.setOnMousePressed(event -> {
 	        x = event.getSceneX();

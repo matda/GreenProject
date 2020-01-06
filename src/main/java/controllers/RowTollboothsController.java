@@ -3,7 +3,6 @@ package controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import casello.Casello;
 import casello.CaselloController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +52,7 @@ public class RowTollboothsController implements Initializable, IRowController {
 	{
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/TollboothEdit.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TollboothEdit.fxml"));
 			Parent root = loader.load();
 			
 			Stage stage = new Stage();

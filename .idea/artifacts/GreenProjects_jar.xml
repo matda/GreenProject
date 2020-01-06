@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GreenProjects:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/GreenProjects_jar</output-path>
+    <root id="archive" name="GreenProjects.jar">
+      <element id="module-output" name="GreenProjects" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

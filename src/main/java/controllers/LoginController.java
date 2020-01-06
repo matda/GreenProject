@@ -45,7 +45,7 @@ public class LoginController implements Initializable {
 		if ( actionEvent.getSource() == administrationArea ) {
 	        
 			try {
-				root = FXMLLoader.load(getClass().getResource("../view/Login-administrator.fxml"));
+				root = FXMLLoader.load(getClass().getResource("/view/Login-administrator.fxml"));
 			    stageTheButtonBelongs = (Stage) administrationArea.getScene().getWindow();
 			    stageTheButtonBelongs.setScene(new Scene(root));
 		       
@@ -58,7 +58,7 @@ public class LoginController implements Initializable {
 		if(actionEvent.getSource() == operatorArea) {
 	        
 			try {
-				root = FXMLLoader.load(getClass().getResource("../view/Login-operator.fxml"));
+				root = FXMLLoader.load(getClass().getResource("/view/Login-operator.fxml"));
 			    stageTheButtonBelongs = (Stage) operatorArea.getScene().getWindow();
 			    stageTheButtonBelongs.setScene(new Scene(root));
 			} catch (IOException e) {

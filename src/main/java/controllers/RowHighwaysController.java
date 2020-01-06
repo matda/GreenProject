@@ -50,7 +50,7 @@ public class RowHighwaysController implements Initializable, IRowController {
 	{
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/HighwaysEdit.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HighwaysEdit.fxml"));
 			Parent root = loader.load();
 			
 			Stage stage = new Stage();

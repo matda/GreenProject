@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package pedaggio;
 
 import java.math.RoundingMode;
@@ -51,8 +49,17 @@ public class PedaggioKm implements IPedaggio{
 		    decForm.setRoundingMode(RoundingMode.HALF_EVEN);
 			return decForm.format(mul);	
 	}
-	
-		
+
+	@Override
+	public String calcoloPedaggioeco(Veicolo veicolo, Casello puntoPagamentoIn, Casello puntoPagamentoOut, Map<String, Float> tariffaUnitaria, double iva) {
+		return null;
+	}
+
+	public String PedaggioEco(Veicolo veicolo, Casello puntoPagamentoIn, Casello puntoPagamentoOut, Map<String, Float> tariffaUnitaria, double iva) {
+		return null;
+	}
+
+
 	private int distanzaPuntiPagamento(Casello caselloIngresso, Casello caselloUscita){
 		if(caselloUscita.getKm() >= caselloIngresso.getKm()) 
 			return caselloUscita.getKm()-caselloIngresso.getKm();

@@ -138,7 +138,7 @@ public class HighwaysEditController implements Initializable {
 			try
 			{
 				//Prendo il layout della singola riga
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RowHighwaysEdit.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RowHighwaysEdit.fxml"));
 				loaders[i] = loader;
 				//la assegno all'i-esmima entry
 				nodes[i] = (Node) loader.load();

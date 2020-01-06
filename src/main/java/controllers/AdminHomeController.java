@@ -25,6 +25,8 @@ import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
+
 
 /**
  * This is the main controller for the Admin panel containing features to manage Highways and Tollbooths
@@ -82,12 +84,15 @@ public class AdminHomeController implements Initializable {
 	private Button btn_Signout;
 	
 	private double x , y;
-	
+
+	final static Logger log = Logger.getLogger(AdminHomeController.class);
+
 	private ArrayList<Autostrada> query_results;
-		
+
 	@Override
 	public void initialize ( URL arg0, ResourceBundle arg1 ) {
-		
+
+
 		//Query e popolamento delle rows
 		getAllHighways();
 		
@@ -97,8 +102,8 @@ public class AdminHomeController implements Initializable {
 		UnaryOperator<Change> filter = change -> {
 		    String text = change.getText();
 
-		    if (text.matches("[0-9]*")) {
-		        return change;
+		    if (text.matches("[0-100]*")) {
+		    	return change;
 		    }
 		    return null;
 		};
@@ -121,7 +126,7 @@ public class AdminHomeController implements Initializable {
 		//query di inserimento
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/HighwaysInsert.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HighwaysInsert.fxml"));
 			Parent root = loader.load();
 			
 			Stage stage = new Stage();
@@ -161,7 +166,7 @@ public class AdminHomeController implements Initializable {
 		//query di inserimento
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/TollboothInsert.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TollboothInsert.fxml"));
 			Parent root = loader.load();
 					
 			Stage stage = new Stage();
@@ -230,7 +235,7 @@ public class AdminHomeController implements Initializable {
 	{
 		try {
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login-choice.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login-choice.fxml"));
 			Parent root = loader.load();
 			
 			Stage stage = (Stage) btn_Signout.getScene().getWindow();
@@ -258,8 +263,10 @@ public class AdminHomeController implements Initializable {
 	{
 		//Eseguo la query
 		AutostradaController controllera = new AutostradaController();
-		this.query_results = (ArrayList<Autostrada>) controllera.getAutostrade();
-			
+		this.query_results = (ArrayList<Autostrada>)controllera.getAutostrade();
+
+		System.out.println(query_results.size());
+
 		lbl_Number_Highways.setText(String.valueOf(query_results.size()));
 			
 				
@@ -272,7 +279,7 @@ public class AdminHomeController implements Initializable {
 			try
 			{
 				//Prendo il layout della singola riga
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RowHighways.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RowHighways.fxml"));
 				//la assegno all'i-esmima entry
 				nodes[i] = (Node) loader.load();
 						
@@ -313,7 +320,7 @@ public class AdminHomeController implements Initializable {
 			try
 			{
 				//Prendo il layout della singola riga
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/RowTollbooths.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RowTollbooths.fxml"));
 				//la assegno all'i-esmima entry
 				nodes[i] = (Node) loader.load();
 								

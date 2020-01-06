@@ -2,6 +2,7 @@ package controllers;
 
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -42,10 +43,6 @@ public class HomeOperatorMainController implements Initializable {
 	private String car_license_plate;
 	private int toll_code;
 	private IPedaggio toll;
-	
-	@FXML
-	private Button btn_calculate;
-	
 	@FXML
 	private Label lbl_tollbooth;
 	
@@ -87,35 +84,146 @@ public class HomeOperatorMainController implements Initializable {
 	 * @param actionEvent
 	 */
 	public void handleTollClick(ActionEvent actionEvent) {
-		
-		
-		if(actionEvent.getSource() == btn_km_toll) {
+
+
+		if (actionEvent.getSource() == btn_km_toll) {
 			toll_code = Constants.KM_TOLL;
+			System.out.println("sono entrato qui dentro");
 			lbl_tollprice.setVisible(false);
+
+			try {
+				calcolopedaggio();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+
 		}
-		
+	}
+	public void handleTollClickeco(ActionEvent actionEvent) {
 		if(actionEvent.getSource() == btn_Green_project) {
-			toll_code = Constants.Green_Project;
-			lbl_tollprice.setVisible(false);
-			lbl_tollprice.setText("The ECOtoll will be avaible from 2021!");
+			toll_code = Constants.KM_TOLL;
+			//preimpostato
 			lbl_tollprice.setVisible(true);
+			// lbl_tollprice.setVisible(false);
+			lbl_tollprice.setText("The buttom will be avaible from 2021!");
+			lbl_tollprice.setVisible(true);
+			//lbl_tollprice.setVisible(false);
+			/**
+			preimpostato
+			lbl_tollprice.setVisible(false);
+
+
+
+
+			  try {
+			 				calcolopedaggioeco();
+			                        }catch(Exception ex){
+			  	ex.printStackTrace();
+			             }
+			 */
+
 		}
+
+
 		System.out.println("Toll Selected: " + toll_code);
 		
 	}
 
-	/**
-	 * <p>This method is used to 
-	 * manage the "back icon" click event </p>
-	 */
+
+
+	public void calcolopedaggio () throws IOException, SQLException{
+		BufferedReader reader = new BufferedReader(new FileReader( Config.TOLL_DATA_INPUT_FILE ));
+		this.start_tollbooth_code = reader.readLine();
+		this.car_license_plate = reader.readLine();
+		System.out.println(start_tollbooth_code);
+		System.out.println(car_license_plate);
+
+		switch(toll_code) {
+			case Constants.KM_TOLL:
+				Veicolo vehicle = VeicoloController.getVeicolo(car_license_plate);
+				CaselloController caselloController = new CaselloController();
+
+
+
+				Casello destination_toll = caselloController.retrieve(Integer.parseInt(this.destination_tollbooth_code));
+				Casello start_toll = caselloController.retrieve(Integer.parseInt(this.start_tollbooth_code));;
+				TariffaController tariff_controller = new TariffaController();
+				Map<String,Float> rate = tariff_controller.getAutostradeTariffe(destination_toll.getAutostradaId());
+				toll = new PedaggioKm();
+
+				AutostradaController autostradaController = new AutostradaController();
+				Autostrada highway = autostradaController.retrieve(destination_toll.getAutostradaId());
+				double highway_iva = highway.getIva();
+
+
+				lbl_tollprice.setText("The toll price is: "+ toll.calcoloPedaggio(vehicle, start_toll, destination_toll, rate, highway_iva)+"0 Euro");
+
+				lbl_tollprice.setVisible(true);
+				break;
+
+			case Constants.Green_Project:
+				toll = new PedaggioEco();
+				System.out.println(toll_code);
+				break;
+
+			default:
+				lbl_tollprice.setText("You have to select a toll type!");
+				lbl_tollprice.setVisible(true);
+		}
+		reader.close();
+	}
+
+/**
+	public void calcolopedaggioeco () throws IOException, SQLException{
+		BufferedReader reader = new BufferedReader(new FileReader( Config.TOLL_DATA_INPUT_FILE ));
+		this.start_tollbooth_code = reader.readLine();
+		this.car_license_plate = reader.readLine();
+		System.out.println(start_tollbooth_code);
+		System.out.println(car_license_plate);
+
+		switch(toll_code) {
+			case Constants.KM_TOLL:
+				Veicolo vehicle = VeicoloController.getVeicolo(car_license_plate);
+				CaselloController caselloController = new CaselloController();
+
+
+
+				Casello destination_toll = caselloController.retrieve(Integer.parseInt(this.destination_tollbooth_code));
+				Casello start_toll = caselloController.retrieve(Integer.parseInt(this.start_tollbooth_code));;
+				TariffaController tariff_controller = new TariffaController();
+				Map<String,Float> rate = tariff_controller.getAutostradeTariffe(destination_toll.getAutostradaId());
+				toll = new PedaggioKm();
+
+				AutostradaController autostradaController = new AutostradaController();
+				Autostrada highway = autostradaController.retrieve(destination_toll.getAutostradaId());
+				double highway_iva = highway.getIva();
+
+
+				lbl_tollprice.setText("The toll price is: "+ toll.calcoloPedaggioeco(vehicle, start_toll, destination_toll, rate, highway_iva)+2+"0 Euro");
+
+				lbl_tollprice.setVisible(true);
+				break;
+
+			case Constants.Green_Project:
+				toll = new PedaggioEco();
+				System.out.println(toll_code);
+				break;
+
+			default:
+				lbl_tollprice.setText("You have to select a toll type!");
+				lbl_tollprice.setVisible(true);
+		}
+		reader.close();
+	}
+*/
 	public void onBtnBackClick()
-	{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login-operator.fxml"));
+	{ FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login-choice.fxml"));
 		Parent root;
-		
+
 		try {	
 			root = loader.load();
-			Stage stage = (Stage) btn_Green_project.getScene().getWindow();
+			Stage stage = (Stage) btn_km_toll.getScene().getWindow();
 			stage.setScene(new Scene(root));
 			stage.show();
 			
@@ -133,7 +241,11 @@ public class HomeOperatorMainController implements Initializable {
 			e.printStackTrace();
 		}		
 	}
-	
+
+
+
+
+
 	/**
 	 * <p>This method handles the click on the calculate button
 	 * Calculates a toll price and displays it on the view</p>
@@ -141,42 +253,6 @@ public class HomeOperatorMainController implements Initializable {
 	 */
 	public void onClick() throws IOException, SQLException {
 		
-		BufferedReader reader = new BufferedReader(new FileReader( Config.TOLL_DATA_INPUT_FILE ));
-		this.start_tollbooth_code = reader.readLine();
-		this.car_license_plate = reader.readLine();
-		System.out.println(start_tollbooth_code);
-		System.out.println(car_license_plate);
 
-		switch(toll_code) {	
-			case Constants.KM_TOLL:	
-					Veicolo vehicle = VeicoloController.getVeicolo(car_license_plate);
-					CaselloController caselloController = new CaselloController();
-					
-					Casello destination_toll = caselloController.retrieve(Integer.parseInt(this.destination_tollbooth_code));
-					Casello start_toll = caselloController.retrieve(Integer.parseInt(this.start_tollbooth_code));;
-					TariffaController tariff_controller = new TariffaController();
-					Map<String,Float> rate = tariff_controller.getAutostradeTariffe(destination_toll.getAutostradaId());											
-					toll = new PedaggioKm();
-					
-					AutostradaController autostradaController = new AutostradaController();
-					Autostrada highway = autostradaController.retrieve(destination_toll.getAutostradaId());
-					double highway_iva = highway.getIva();
-					
-
-					lbl_tollprice.setText("The toll price is: "+ toll.calcoloPedaggio(vehicle, start_toll, destination_toll, rate, highway_iva)+"0 Euro");
-
-					lbl_tollprice.setVisible(true);
-					break;
-		
-			case Constants.Green_Project:
-				toll = new PedaggioEco();
-				System.out.println(toll_code);
-				break;
-		
-			default:
-				lbl_tollprice.setText("You have to select a toll type!");
-				lbl_tollprice.setVisible(true);			
-		}
-		reader.close();
 	}
 }

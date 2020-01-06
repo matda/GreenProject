@@ -1,96 +1,78 @@
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
+
+CREATE DATABASE db_with_examples;
+USE db_with_examples;
+
+Class.forName("com.mysql.jdbc.Driver");
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
--- Struttura della tabella `administrator`
---
 
+
+-- Struttura della tabella `administrator`
 CREATE TABLE `administrator` (
-  `id` bigint(70) NOT NULL,
-  `username` varchar(144) NOT NULL,
-  `password` varchar(144) NOT NULL
+  `id` bigint(20) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `administrator`
---
-
+-- credenziali
 INSERT INTO `administrator` (`id`, `username`, `password`) VALUES
-(1, 'jimmy', 'admin');
+(1, 'yoda', 'admin');
 
--- --------------------------------------------------------
-
---
 -- Struttura della tabella `autostrada`
---
 
 CREATE TABLE `autostrada` (
-  `id` bigint(70) NOT NULL,
-  `nome` varchar(144) NOT NULL,
-  `iva` decimal(6,7) NOT NULL
+  `id` bigint(20) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `iva` decimal(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
 -- Dump dei dati per la tabella `autostrada`
---
 
 INSERT INTO `autostrada` (`id`, `nome`, `iva`) VALUES
-(5, 'B23', '22.00'),
-(16, 'A89', '22.00'),
-(19, 'A1', '22.00'),
-(25, 'A26', '22.00'),
-(30, 'A34', '22.00');
+(1, 'A18', '22.00'),
+(17, 'A45', '22.00'),
+(18, 'A1', '22.00'),
+(19, 'A2', '22.00'),
+(20, 'A24', '22.00');
 
--- --------------------------------------------------------
-
---
 -- Struttura della tabella `casello`
---
 
 CREATE TABLE `casello` (
-  `id` bigint(70) NOT NULL,
-  `id_autostrada` bigint(70) NOT NULL,
-  `locazione` varchar(144) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `id_autostrada` bigint(20) NOT NULL,
+  `locazione` varchar(255) NOT NULL,
   `kilometro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
 -- Dump dei dati per la tabella `casello`
---
 
 INSERT INTO `casello` (`id`, `id_autostrada`, `locazione`, `kilometro`) VALUES
-(1, 1, 'Topolinia', 60),
-(2, 1, 'Neverland', 10),
-(3, 1, 'Molise', 40000),
-(74, 18, 'Runeterra', 90),
-(75, 18, 'Assurdopoli', 400),
-(76, 18, 'Mixera', 900),
-(77, 18, 'Mongolia', 700),
-(78, 19, 'Busso', 258),
-(79, 19, 'Catalo', 550);
+(1, 1, 'Teramo Ovest', 25),
+(2, 1, 'Teramo ovest', 150),
+(3, 1, 'Teramo Ovest', 400),
+(74, 18, 'Napoli nord', 0),
+(75, 18, 'Bologna sud', 500),
+(76, 18, 'Milano sud', 700),
+(77, 18, 'Milano nord', 740),
+(78, 19, 'Cosenza sud', 25),
+(79, 19, 'Catanzaro', 50);
 
--- --------------------------------------------------------
+-- Struttura della tabella `tariffa`
 
---
--- Struttura della tabella `Tariffa`
---
-
-CREATE TABLE `tassa` (
+CREATE TABLE `tariffa` (
   `id` bigint(20) NOT NULL,
   `classe_veicolo` enum('A','B','3','4','5') NOT NULL,
   `prezzo` decimal(9,2) NOT NULL,
   `id_autostrada` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `Tariffa`
---
+-- Dump dei dati per la tabella `tariffa`
 
-INSERT INTO `tassa` (`id`, `classe_veicolo`, `prezzo`, `id_autostrada`) VALUES
+INSERT INTO `tariffa` (`id`, `classe_veicolo`, `prezzo`, `id_autostrada`) VALUES
 (81, 'A', '0.45', 1),
 (82, 'B', '0.45', 1),
 (83, '3', '3.80', 1),
@@ -117,11 +99,7 @@ INSERT INTO `tassa` (`id`, `classe_veicolo`, `prezzo`, `id_autostrada`) VALUES
 (114, '4', '0.06', 20),
 (115, '5', '0.10', 20);
 
--- --------------------------------------------------------
-
---
 -- Struttura della tabella `veicolo`
---
 
 CREATE TABLE `veicolo` (
   `id` bigint(20) NOT NULL,
@@ -135,97 +113,70 @@ CREATE TABLE `veicolo` (
   `inquinamentoAcustico` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
 -- Dump dei dati per la tabella `veicolo`
---
 
 INSERT INTO `veicolo` (`id`, `targa`, `modello`, `assi`, `classe_veicolo`, `classe_ambientale`, `anno_immatricolazione`, `cilindrata`, `inquinamentoAcustico`) VALUES
 (1, 'EA123456', 'Audi RS6', 2, 'A', 'ECO 6', 2019, 3000, 50);
 
---
--- Indici per le tabelle scaricate
---
 
---
+-- Indici per le tabelle scaricate
+
 -- Indici per le tabelle `administrator`
---
 ALTER TABLE `administrator`
   ADD PRIMARY KEY (`id`);
 
---
 -- Indici per le tabelle `autostrada`
---
 ALTER TABLE `autostrada`
   ADD PRIMARY KEY (`id`);
 
---
 -- Indici per le tabelle `casello`
---
 ALTER TABLE `casello`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_autostrada` (`id_autostrada`);
 
---
--- Indici per le tabelle `Tariffa`
---
-ALTER TABLE `tassa`
+-- Indici per le tabelle `tariffa`
+ALTER TABLE `tariffa`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tariffa_ibfk_1` (`id_autostrada`);
 
---
 -- Indici per le tabelle `veicolo`
---
 ALTER TABLE `veicolo`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `targa` (`targa`);
 
---
--- AUTO_INCREMENT per le tabelle scaricate
---
 
---
+
+-- AUTO_INCREMENT per le tabelle scaricate
+
 -- AUTO_INCREMENT per la tabella `administrator`
---
 ALTER TABLE `administrator`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
 -- AUTO_INCREMENT per la tabella `autostrada`
---
 ALTER TABLE `autostrada`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
---
 -- AUTO_INCREMENT per la tabella `casello`
---
 ALTER TABLE `casello`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
---
--- AUTO_INCREMENT per la tabella `Tariffa`
---
-ALTER TABLE `tassa`
+-- AUTO_INCREMENT per la tabella `tariffa`
+ALTER TABLE `tariffa`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
---
 -- AUTO_INCREMENT per la tabella `veicolo`
---
 ALTER TABLE `veicolo`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- Limiti per le tabelle scaricate
---
 
---
+-- Limiti per le tabelle scaricate
+
 -- Limiti per la tabella `casello`
---
 ALTER TABLE `casello`
   ADD CONSTRAINT `casello_ibfk_1` FOREIGN KEY (`id_autostrada`) REFERENCES `autostrada` (`id`) ON DELETE CASCADE;
 
---
--- Limiti per la tabella `Tariffa`
---
+
+-- Limiti per la tabella `tariffa`
 ALTER TABLE `tariffa`
   ADD CONSTRAINT `tariffa_ibfk_1` FOREIGN KEY (`id_autostrada`) REFERENCES `autostrada` (`id`) ON DELETE CASCADE;
 COMMIT;

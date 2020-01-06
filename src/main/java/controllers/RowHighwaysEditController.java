@@ -64,6 +64,7 @@ public class RowHighwaysEditController implements Initializable {
 		String[] res = new String[2];
 		res[0] = lbl_Name.getText();
 		res[1] = txt_Tariff.getText();
+
 		return res;
 	}
 			
